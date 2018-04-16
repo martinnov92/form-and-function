@@ -17,19 +17,19 @@ In modern JavaScript development bundle size is always a concern - currently for
 
 ## Contents
 
-* [Examples](#examples)
-* [Installation](#installation)
-* [Usage](#usage)
-    * [Form](#form)
-    * [Field](#field)
-    * [Validation](#validation)
-        * [Built-In Validators](#built-in-validators)
-        * [Custom Errors](#custom-validation-errors)
-        * [Combining Validators](#combining-validators)
-        * [Covalidating Fields](#covalidated-fields)
-        * [Custom Validators](#writing-your-own-validators)
-    * [Internationalization](#internationalization)
-* [State Management](#state-management)
+*   [Examples](#examples)
+*   [Installation](#installation)
+*   [Usage](#usage)
+    *   [Form](#form)
+    *   [Field](#field)
+    *   [Validation](#validation)
+        *   [Built-In Validators](#built-in-validators)
+        *   [Custom Errors](#custom-validation-errors)
+        *   [Combining Validators](#combining-validators)
+        *   [Covalidating Fields](#covalidated-fields)
+        *   [Custom Validators](#writing-your-own-validators)
+    *   [Internationalization](#internationalization)
+*   [State Management](#state-management)
 
 ## Examples
 
@@ -160,57 +160,58 @@ export const YourApp = () => (
 
 The `Form` component will accept the following props:
 
-* name (string, required) - The name of the form.
-* render (component/function, required) - Function/functional component that will render the form - passed InjectedFormProps as below
-* renderProps (object, optional) - Custom props to pass to the render component
-* validators (object, optional) - Form validation object - see validation
-* initialValues (object, optional) - Initial form values in the form `{ [fieldName]: value }`
-* onSubmit (function, optional) - Called on form submission with form values
-* onSubmitFailed (function, optional) - Called when submission fails due to validation errors, with form values
-* onChange (function, optional) - Called when any form value changes, with all form values
+*   name (string, required) - The name of the form.
+*   render (component/function, required) - Function/functional component that will render the form - passed InjectedFormProps as below
+*   renderProps (object, optional) - Custom props to pass to the render component
+*   validators (object, optional) - Form validation object - see validation
+*   initialValues (object, optional) - Initial form values in the form `{ [fieldName]: value }`
+*   onSubmit (function, optional) - Called on form submission with form values. Should return void or Promise<void>
+*   onSubmitFailed (function, optional) - Called when submission fails due to validation errors, with form values. Should return void or Promise<void>
+*   onChange (function, optional) - Called when any form value changes, with all form values
 
 The render component you provide will receive the following props:
 
-* Field (Component) - A component to create fields
-* form (object) - Props that must be passed to a <form> element
-* values (object) - Current form values
-* meta (object)
-    * valid (boolean) - Is validation currently passing
-    * submitted (boolean) - Has the form been submitted at any time
-    * errors: (object) - Current errors for the form, { [fieldName]: { error: string }}
-      isValidating (boolean) - Is validation currently ongoing
-* actions (object)
-    * reset (function) - Call to reset the form to initial values and clear validation errors
-    * submit: (function) - Call to submit the form
-* ownProps (object) - Any additional props passed via `renderProps` above
+*   Field (Component) - A component to create fields
+*   form (object) - Props that must be passed to a <form> element
+*   values (object) - Current form values
+*   meta (object)
+    *   valid (boolean) - Is validation currently passing
+    *   submitted (boolean) - Has the form been submitted at any time
+    *   errors: (object) - Current errors for the form, { [fieldName]: { error: string }}
+    *   isValidating (boolean) - Is validation currently ongoing
+    *   isSubmitting (boolean) - Is submission currently ongoing
+*   actions (object)
+    *   reset (function) - Call to reset the form to initial values and clear validation errors
+    *   submit: (function) - Call to submit the form
+*   ownProps (object) - Any additional props passed via `renderProps` above
 
 ### Field
 
 The `Field` component (as provided to the `Form` renderer), can be passed the following props:
 
-* name (string, required) - The field name
-* render (component/function, required) - Field renderer - passed InjectedFieldProps as below
-* renderProps (object, optional) - Custom props to pass to the field renderer
-* onChange (function, optional) - Called with the change event, and the field value, whenever the field value changes I.e. (e: SyntheticEvent, value: string | number | undefined) => void
-* onFocus (function, optional) - Called with the focus event, and the field value, whenever the field value is focused
-* onBlur (function, optional) - Called with the blur event, and the field value, whenever the field value is blurred
+*   name (string, required) - The field name
+*   render (component/function, required) - Field renderer - passed InjectedFieldProps as below
+*   renderProps (object, optional) - Custom props to pass to the field renderer
+*   onChange (function, optional) - Called with the change event, and the field value, whenever the field value changes I.e. (e: SyntheticEvent, value: string | number | undefined) => void
+*   onFocus (function, optional) - Called with the focus event, and the field value, whenever the field value is focused
+*   onBlur (function, optional) - Called with the blur event, and the field value, whenever the field value is blurred
 
 The render component passed to `Field` is provided with the following props. The input prop should generally be passed directly to the underlying <input> element, i.e. <input {...input} />
 
-* meta (object)
-    * valid (boolean) - Does the field pass validation
-    * error (string | undefined) - Current validation error
-    * pristine (boolean) - True if the field has the same value as its initial value
-    * touched (boolean) - Has the field has ever been focused
-    * active (boolean) - Is the field currently focused
-    * isValidating (boolean) - Is the field currently being validated
-* input (object)
-    * onChange (function) - Called with (event, value) when the field value changes
-    * onFocus (function) - Called with (event, value) when the field is focused
-    * onBlur (function) - Called with (event, value) when the field is blurred
-    * value (string | number | undefined) - Current field value
-    * name (string) - Name of the field
-* ownProps - Any custom props passed to `Field`s `renderProps`
+*   meta (object)
+    *   valid (boolean) - Does the field pass validation
+    *   error (string | undefined) - Current validation error
+    *   pristine (boolean) - True if the field has the same value as its initial value
+    *   touched (boolean) - Has the field has ever been focused
+    *   active (boolean) - Is the field currently focused
+    *   isValidating (boolean) - Is the field currently being validated
+*   input (object)
+    *   onChange (function) - Called with (event, value) when the field value changes
+    *   onFocus (function) - Called with (event, value) when the field is focused
+    *   onBlur (function) - Called with (event, value) when the field is blurred
+    *   value (string | number | undefined) - Current field value
+    *   name (string) - Name of the field
+*   ownProps - Any custom props passed to `Field`s `renderProps`
 
 ### Validation
 
@@ -238,13 +239,13 @@ import { Form, validation } from "form-and-function";
 
 If this looks long-winded then say hello to some built in validators! Currently we provide the following:
 
-* `validation.required` - Is the value defined, with a length of > 0 when converted to a string
-* `validation.atLeast` - Is the value at least some length.
-* `validation.atMost` - Is the value at most some length.
-* `validation.numeric` - Is the value numeric only.
-* `validation.equalTo` - Does the value match that of another field
-* `validation.exactly` - Is the value exactly equal ( === ) to a specified value
-* `validation.matches` - Does the value match a specified regular expression
+*   `validation.required` - Is the value defined, with a length of > 0 when converted to a string
+*   `validation.atLeast` - Is the value at least some length.
+*   `validation.atMost` - Is the value at most some length.
+*   `validation.numeric` - Is the value numeric only.
+*   `validation.equalTo` - Does the value match that of another field
+*   `validation.exactly` - Is the value exactly equal ( === ) to a specified value
+*   `validation.matches` - Does the value match a specified regular expression
 
 They can be used as follows:
 
@@ -356,7 +357,7 @@ As an example, we might want to check if a field is numeric AND more than 5 char
 
 ```js
 <Form
-    validators={validation.all({
+    validators={validation.create({
         longNumber: validation.all([
             validation.atLeast(
                 { chars: 3 },
@@ -383,7 +384,7 @@ an array of strings, and should return a string.
 
 ```js
 <Form
-    validators={validation.all({
+    validators={validation.create({
         longNumber: validation.all([
             validation.atLeast({ chars: 3 }, {
                 short: ({ chars }) => `${chars} characters minimum`,
@@ -432,7 +433,7 @@ Of course, we want to give feedback to our users on both fields. We can do this 
 
 #### Writing Your Own Validators
 
-Although the provided validators cover a lot of sitations, undoubtedly at some point you will need to create your own. This is relatively simple. Validators must match the signature:
+Although the provided validators cover a lot of situations, undoubtedly at some point you will need to create your own. This is relatively simple. Validators must match the signature:
 
 ```js
 interface ValidResult {
@@ -557,7 +558,7 @@ If, as above, we name our messages using the same keys as the form validation me
 
 ## State Management
 
-One of the design goals was to create a library that was agnostic to the variety of state management used. I'm not certain that this is an easy target, or one that is achieved entirely, but the current attempt uses a prop on the `Form` component: `stateEngine`. This is an optional prop, and if not passed then `form-and-function` will create its own state engine that uses the internal state of the `Form` component. If supplied, this prop should be an object that fulfils the following interface:
+One of the design goals was to create a library that was agnostic to the variety of state management used. I'm not certain that this is an easy target, or one that is achieved entirely, but the current attempt uses a prop on the `Form` component: `stateEngine`. This is an optional prop, and if not passed then `form-and-function` will create its own state engine that uses the internal state of the `Form` component. If supplied, this prop should be an object that fulfills the following interface:
 
 ```js
 export interface StateEngine<T extends object> {

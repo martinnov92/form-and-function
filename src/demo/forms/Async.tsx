@@ -20,9 +20,11 @@ const validators = validation.create({
             setTimeout(
                 () =>
                     r(
-                        validation.atLeast({ chars: 5 })(reporters, ((
-                            x: string
-                        ) => x) as any)(val)
+                        validation.atLeast({ chars: 5 })(
+                            reporters,
+                            validation.useFormatter,
+                            ((x: string) => x) as any
+                        )(val)
                     ),
                 1000
             )
@@ -36,6 +38,7 @@ export const AsyncForm = () => (
         initialValues={initialValues}
         onSubmit={values => {
             console.log("Submitted with values", values);
+            return new Promise(r => setTimeout(r, 2000));
         }}
         onSubmitFailed={values => {
             console.log("Submission failed with values", values);
